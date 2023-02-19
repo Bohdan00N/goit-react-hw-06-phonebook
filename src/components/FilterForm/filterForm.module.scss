@@ -1,0 +1,24 @@
+div {
+text-align: center;
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+.label{
+    color: lightseagreen;
+    font-size: 25px;
+    font-weight: 700;
+}
+.input {
+    height: 25px;
+    border: solid 2px blue;
+    border-radius: 7px;
+    font-size: 20px;
+    padding: 0.4rem 14rem 0.4rem 0.9rem;
+    color: green;
+&::placeholder{
+    font-size: 20px;
+    color: rgb(116, 191, 216);
+    padding-left: 7px;
+}
+}

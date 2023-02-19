@@ -1,0 +1,20 @@
+li {
+  text-align: left;
+  color: grey;
+  font-style: italic;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+.contactListItemBtn {
+  margin-left: 20px;
+  height: 25px;
+  width: 65px;
+  background: rgb(255, 0, 0);
+  border-radius: 25px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  border: none;
+  cursor: pointer;
+}
