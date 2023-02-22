@@ -10,16 +10,10 @@ export const ContactDelete = () => {
   const filter = useSelector(getFilter);
 
   function contactsFiltr() {
-    if (filter === '') {
-      return false;
-    }
-
-    return contacts.filter(e => e.name.toLowerCase().includes(filter));
+   return contacts.filter(e => e.name.toLowerCase().includes(filter));
   }
-
-  const filterFunc = contactsFiltr();
-
-  const list = filterFunc ? filterFunc : contacts;
+ 
+  const list = contactsFiltr();
 
   return (
     <div className={css.wraperContactList}>
