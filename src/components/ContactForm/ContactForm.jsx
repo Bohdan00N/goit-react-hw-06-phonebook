@@ -1,25 +1,49 @@
-import propTypes from 'prop-types';
+import { nanoid } from '@reduxjs/toolkit';
+import React from 'react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterValue, addContact } from 'redux/reducer';
+import { getItem } from 'redux/selector';
 import css from './contactForm.module.scss';
+import { Notify } from 'notiflix';
 
-export const ContactForm = ({onSubmit}) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
 
-  const handleOnChangeName = e => {
-    const { value } = e.target;
-    setName(value);
+const INITIAL_STATE = {
+  name: '',
+  number: '',
+};
+
+
+export const ContactForm = () => {
+  const [{ name, number }, setState] = useState(INITIAL_STATE);
+  const dispatch = useDispatch();
+  const contacts = useSelector(getItem)
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setState(prevState => ({ ...prevState, [name]: value }));
   };
-  const handleOnChangeNumber = e => {
-    const { value } = e.target;
-    setNumber(value);
-  };
+
   const handleOnSubmit = e => {
     e.preventDefault();
-    onSubmit({ name: name, number: number });
-    setName('');
-    setNumber('');
+    const New = {
+      id: nanoid(3),
+      name,
+      number,
+    }
+    if (contacts.some(e => e.name === New.name)) {
+      Notify.failure(`${New.name} is already is contacts`);
+      return;
+    }
+    
+    dispatch(addContact(New));
+    Notify.success(`${New.name} is added`);
+    
+    dispatch(filterValue(''));
+
+    setState({ ...INITIAL_STATE });
   };
+
 
   return (
     <form className={css.form} onSubmit={handleOnSubmit}>
@@ -33,7 +57,7 @@ export const ContactForm = ({onSubmit}) => {
         required
         placeholder="Enter name"
         value={name}
-        onChange={handleOnChangeName}
+        onChange={handleChange}
       />
       <label className={css.label}>Number </label>
       <input
@@ -45,7 +69,7 @@ export const ContactForm = ({onSubmit}) => {
         required
         placeholder="Enter phone number"
         value={number}
-        onChange={handleOnChangeNumber}
+        onChange={handleChange}
       />
       <button className={css.formOnbtn} type="submit">
         Add contact
@@ -54,6 +78,3 @@ export const ContactForm = ({onSubmit}) => {
   );
 };
 
-ContactForm.propTypes = {
-  onSubmit: propTypes.func.isRequired,
-};
